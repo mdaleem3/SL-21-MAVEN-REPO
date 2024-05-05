@@ -17,12 +17,18 @@ public class MyCalculator {
 	{
 		return a/b;
 	}
+	public void show()
+	{
+		System.out.println("Hello Docker");
+	}
+	
 		public static void main(String[] args) {
 		MyCalculator calc = new MyCalculator();
 		System.out.println("Sum is :"+calc.sum(20, 10));
 		System.out.println("Diff is :"+calc.diff(20, 10));
 		System.out.println("Mul is :"+calc.mul(20, 10));
-		System.out.println("Div is :"+calc.div(20, 10));	
+		System.out.println("Div is :"+calc.div(20, 10));
+		calc.show();
 
 	}
 }
