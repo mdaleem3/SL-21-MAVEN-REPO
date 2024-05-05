@@ -3,6 +3,9 @@ package demo;
 public class MyCalculator {
 	public int sum(int a, int b)
 	{
+		int c;
+		int d;
+		c=5+10;
 		return a+b;
 	}
 	public int diff(int a, int b)
