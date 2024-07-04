@@ -6,12 +6,12 @@ pipeline {
     }
 
     stages {
-        stage('SCM') {
+        stage('Git Clone') {
             steps {
                 git changelog: false, poll: false, url: 'https://github.com/hkshitesh/GFG-21-MAVEN-REPO.git'
             }
         }
-        stage('Maven') {
+        stage('Maven Build') {
             steps {
                 bat 'mvn install'
             }
@@ -20,11 +20,10 @@ pipeline {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'd2866e06-4cbd-41a1-b500-4a00fdc6986e') {
-                        bat "docker build -t hkshitesh/jenkinsjob ."
-                        bat "docker push hkshitesh/jenkinsjob"
-			}
+                        bat 'docker build -t hkshitesh/gfgrepo .'
+                        bat 'docker push hkshitesh/gfgrepo'
+                    }
                 }
-                
             }
         }
     }
