@@ -1,62 +1,31 @@
-pipeline 
-{
-	agent any
-	tools
-	{
-		maven 'MAVEN_HOME'
-	}
-	
-	stages{
-		stage('Welcome Stage')
-		{
-			steps
-			{
-				echo 'Welcome to Jenkins Pipeline'
-			}			
-		}
-		stage('Clean Stage')
-		{
-			steps
-			{
-				bat 'mvn clean'
-			}			
-		}
-		stage('Test Stage')
-		{
-			steps
-			{
-				bat 'mvn test'
-			}			
-		}
-		stage('Build Stage')
-		{
-			steps
-			{
-				bat 'mvn install'
-			}			
-		}
+pipeline {
+    agent any
+    tools {
+        jdk 'JAVA_HOME'
+        maven 'MAVEN_HOME'
+    }
 
-		stage('Success Stage')
-		{
-			steps
-			{
-				echo 'Successfully Build'
-			}			
-		}
-		stage('Final Stage')
-		{
-			steps
-			{
-				echo 'CICD Pipeline Successfully completed '
-			}			
-		}
-		stage('Java Version Stage')
-		{
-			steps
-			{
-				bat 'java --version'
-			}			
-		}
-	
-	}
+    stages {
+        stage('SCM') {
+            steps {
+                git changelog: false, poll: false, url: 'https://github.com/hkshitesh/GFG-21-MAVEN-REPO.git'
+            }
+        }
+        stage('Maven') {
+            steps {
+                bat 'mvn install'
+            }
+        }
+        stage('Docker Build and Push') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'd2866e06-4cbd-41a1-b500-4a00fdc6986e') {
+                        bat "docker build -t hkshitesh/jenkinsjob ."
+                        bat "docker push hkshitesh/jenkinsjob"
+			}
+                }
+                
+            }
+        }
+    }
 }
